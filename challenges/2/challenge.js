@@ -52,6 +52,36 @@
  *  }
  */
 
-const normalizeData = unormalized => {}
+function reportId(report) {
+    return report.id
+}
+
+const normalizeData = unormalized => {
+    let normalized = {};
+    normalized.results = {};
+    normalized.results[unormalized.id] = {
+        id: unormalized.id,
+        user: unormalized.user.id,
+        reports: unormalized.reports.map(reportId)
+    };
+
+    normalized.users = {};
+    normalized.users[unormalized.user.id] = {
+        id: unormalized.user.id,
+        name: unormalized.user.name
+    };
+
+    normalized.reports = {};
+    for (let i in unormalized.reports) {
+        normalized.reports[unormalized.reports[i].id] = {
+            id: unormalized.reports[i].id,
+            user: unormalized.user.id,
+            document: unormalized.reports[i].result.document,
+            status: unormalized.reports[i].result.status
+        };
+    }
+
+    return normalized;
+}
 
 module.exports = normalizeData
