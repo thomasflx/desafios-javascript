@@ -26,7 +26,15 @@
  * }
  */
 
-const extractSize = htmlTemplate => {}
+const extractSize = htmlTemplate => {
+    let width = htmlTemplate.match("width:(.*)[^;|\"$]");
+    width = width ? width[1].match(/\d+/) : 0;
+
+    let height = htmlTemplate.match("height:(.*)[^;|\"$]");
+    height = height ? height[1].match(/\d+/) : 0;
+
+    return {width: parseInt(width), height: parseInt(height)};
+}
 
 module.exports = extractSize;
 
