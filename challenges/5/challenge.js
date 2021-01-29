@@ -27,6 +27,33 @@
 
 const posts = require('./posts.json')
 
-const paginate = (pageNumber, itemsPerPage) => {}
+function chunkArray(arr, size) {
+    let newArr = [];
+    let current = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (i != 0 && i % size == 0) {
+            newArr.push(current);
+            current = [];
+        }
+        current.push(arr[i]);
+    }
+
+    newArr.push(current);
+
+    return newArr;
+}
+
+const paginate = (collection, pageNumber = 1, itemsPerPage = 10) => {
+    let chunkPosts = chunkArray(collection, itemsPerPage);
+    let currentPosts = typeof chunkPosts[pageNumber - 1] !== 'undefined' ? chunkPosts[pageNumber - 1] : [];
+
+    return {
+        currentPage: pageNumber,
+        perPage: itemsPerPage,
+        total: posts.length,
+        totalPages: Math.ceil(posts.length / itemsPerPage),
+        data: currentPosts
+    }
+}
 
 module.exports = paginate
