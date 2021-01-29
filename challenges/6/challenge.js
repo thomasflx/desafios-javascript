@@ -78,68 +78,14 @@ function decomp(set, n) {
         }
     }
 
-    for (let i = n; i > 0; i--) {
-        let current = [];
-        // let j = i;
-        // console.log('############################## I', i);
-
-        // while (j > 0) {
-        //     current.push(j);
-        //     if (j == n) {
-        //         decomp.push(current);
-        //         current = [];
-        //     } else if(current.reduce((a, b) => a + b, 0) === n) {
-        //         decomp.push(current);
-        //         current = [];
-        //     } else if (current.reduce((a, b) => a + b, 0) > n) {
-        //         current = [];
-        //     } else {
-        //         continue;
-        //     }
-
-        //     j--;
-        // }
-    }
-
     return decomp;
 }
 
 const combinate = (set, target) => {
+    // let sets = decomp([2, 3], 6);
     let sets = decomp(set, target);
 
     console.log('############################## SETS', sets);
-
-    // for (let i in set) {
-    //     let current = [];
-    //     let red = [];
-
-    //     for (let j = 1; j * set[i] <= target; j++) {
-    //         current.push(set[i]);
-    //         if (j * set[i] == target) {
-    //             sets.push(current);
-    //         } else if (set[i] < target) {
-    //             red.push(set[i]);
-    //         }
-    //     }
-    //     console.log('############################## RED', red);
-
-    //     let curr = red.reduce((a, b, i, arr) => {
-    //         if (a == target) {
-    //             arr.splice(arr.length - i - 1);
-    //         }
-    //         else {
-    //             return a + b
-    //         }
-    //     }, 0);
-    //     if (curr == target) {
-    //         sets.push(red);
-    //         red = [];
-    //     }
-    // }
-
-    // console.log('############################## DECOMP', sets);
-
-    // let sets = sumArray(set, target);
 
     return sets;
 }
