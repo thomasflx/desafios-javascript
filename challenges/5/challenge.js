@@ -44,6 +44,9 @@ function chunkArray(arr, size) {
 }
 
 const paginate = (collection, pageNumber = 1, itemsPerPage = 10) => {
+    if (typeof collection !== 'object') throw 'Expect array and got string';
+    else if(!Array.isArray(collection)) throw 'Expect array and got string';
+
     let chunkPosts = chunkArray(collection, itemsPerPage);
     let currentPosts = typeof chunkPosts[pageNumber - 1] !== 'undefined' ? chunkPosts[pageNumber - 1] : [];
 
