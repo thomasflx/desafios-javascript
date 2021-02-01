@@ -46,46 +46,91 @@
 *    ]
  */
 
-function* times(set, target) {
-    for (i in set) {
-        for (let j = 1; j * set[i] <= target; j++) {
-            if (j * set[i] == target) {
-                yield {i: j, set: set[i]};
-            }
-        }
-    }
+function testArrays (array, sum) {
+    let result1 = sumArray(array, sum);
+    let result2 = sumArray(array.reverse(), sum);
 
-    return true;
+    if (result1.length > result2.length) {
+        for (i = 0; i < result1.length; i++) {
+            result1[i].sort();
+        }
+        return result1;
+    } else {
+        for (i = 0; i < result2.length; i++) {
+            result2[i].sort();
+        }
+        return result2.reverse();
+    }
 }
 
-function decomp(set, n) {
-    let decomp = [];
+function sumArray(array, sum) {
+    let nums = [];
+    let numRepeat = [];
+    let prevNums = [];
+    let resto = '';
 
-    let t = times(set, n);
-    console.log('############################## SET', set);
-    console.log('############################## N', n);
-
-    while (h = t.next()) {
-        console.log('############################## H', h);
-        let current = [];
-        if (!h.done) {
-            for (let j = 0; j < h.value.i; j++) {
-                current.push(h.value.set);
+    /*
+    ** Resolver a parte de repetição
+    */
+    for (let i in array) {
+        numRepeat[i] = [];
+        if (isPar(sum)) {
+            resto = sum / array[i];
+            if (isPar(resto)) {
+                while (resto > 0 ) {
+                    numRepeat[i].push(array[i]);
+                    resto--;
+                }
             }
-            decomp.push(current);
-        } else {
-            break;
+        }
+        if (sum == array[i]) {
+            numRepeat[i].push(array[i]);
         }
     }
 
-    return decomp;
+    for(let j in array) {
+        nums[j] = [];
+        elemento = array[j];
+        nums[j].push(elemento);
+        let teste = elemento
+        for (x = 0; x < sum; x++) {
+            if (typeof(array[parseFloat(j)+1]) == "undefined") {
+                nums[j] = [];
+                break;
+            }
+            nums[j].push(parseFloat(array[parseFloat(j)+1]));
+            teste += parseFloat(array[parseFloat(j)+1]);
+            if (teste > sum) {
+                nums[j] = [];
+                break;
+            }
+            if (teste == sum) {
+                break;
+            }
+            if (typeof(teste) == NaN) {
+                nums[j] = [];
+                break;
+            }
+            nums[j].sort()
+        }
+    }
+
+    let arrayJoin = numRepeat.concat(nums);
+    let ret = arrayJoin.filter(e => e.length);
+
+    return ret
+}
+
+function isPar (num) {
+    if (num % 2 == 0 ) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 const combinate = (set, target) => {
-    // let sets = decomp([2, 3], 6);
-    let sets = decomp(set, target);
-
-    console.log('############################## SETS', sets);
+    let sets = testArrays(set, target);
 
     return sets;
 }
